@@ -1,0 +1,158 @@
+{%extends "base.html"%}
+{%block content%}
+{%load custom_filter%}
+
+<center>
+<h2> Update Fee </h2><br>
+</center>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Check Fee Table</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Check Fee table</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <table>
+          <tr>
+            <th>Class</th>
+            <th>Fee -/month</th>
+            <th>Total Submissions</th>
+          </tr>
+          <tr>
+            <td>1st</td>
+            <td>200</td>
+            <td>12</td>
+          </tr>
+          <tr>
+            <td>2nd</td>
+            <td>400</td>
+            <td>12</td>
+          </tr>
+          <tr>
+            <td>3rd</td>
+            <td>600</td>
+            <td>12</td>
+          </tr>
+          <tr>
+            <td>4th</td>
+            <td>800</td>
+            <td>12</td>
+          </tr>
+          <tr>
+            <td>5th</td>
+            <td>1000</td>
+            <td>12</td>
+          </tr>
+          <tr>
+            <td>6th</td>
+            <td>1200</td>
+            <td>12</td>
+          </tr>
+          <tr>
+            <td>7th</td>
+            <td>1400</td>
+            <td>12</td>
+          </tr>
+          <tr>
+            <td>8th</td>
+            <td>1600</td>
+            <td>12</td>
+          </tr>
+          <tr>
+            <td>9th</td>
+            <td>1800</td>
+            <td>12</td> 
+          </tr>
+          <tr>
+            <td>10th</td>
+            <td>2000</td>
+            <td>12</td>
+          </tr>
+          <tr>
+            <td>10+1</td>
+            <td>2200</td>
+            <td>12</td>
+          </tr>
+          <tr>
+            <td>10+2</td>
+            <td>2400</td>
+            <td>12</td>
+          </tr>
+          
+        </table>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<center>
+  <form method='POST'>
+    {% csrf_token %}
+    {{d1}}
+    Student : {{data.first_name}} s/o {{data.fathername}}<br>
+    Class : {{data.clas}}<br>
+    Monthly Fees : {{data.clas.mothly_fee}}<hr>
+    <input type="text"  name="receiving_user" hidden value={{user.last_name}}><br>
+    
+    <label  >Fee Received till now :</label>
+    <input type="number" id ="fee_rec" name="fee" placeholder="total fee received" Disabled value= {{data.fee}}><br>
+    
+    <label  hidden >Total Fee after payment :</label>
+    <input  hidden id ="total" name="totalfee"  max=2400><br>
+    <label hidden  >fee received for months after payment :</label>
+    <input hidden id ="totalmonths" name="totalmonth"><br>
+
+    Received for months till now: <label id="fee_rec_mnth" ></label><hr>
+    <script>
+
+    </script>
+    
+    <select  name="feestatus" onchange=calculatefee() id ="months">
+      {% for i in month %}
+      {% with rec_mon=data.fee|div:data.clas.mothly_fee %}
+      {% if forloop.counter <= 12|sub:rec_mon%}
+      <option value="{{i.0}}">{{i.1}}</option>      
+      {% endif %}
+      {% endwith %}
+      
+    {% endfor %}    
+    </select><br>
+    
+    Amount to pay: <label id="fee_to_pay"></label><br>
+    <button type="submit"> Update </button>
+</form>
+&Tab;&Tab;&Tab;&Tab;&Tab;&Tab; <button onclick="history.back()">Cancel</button>
+
+<!--Scriptss below-->
+<script>
+   
+  document.getElementById('fee_rec_mnth').innerHTML = document.getElementById('fee_rec').value/{{data.clas.mothly_fee}}
+  
+  function  calculatefee() 
+  { 
+    document.getElementById('fee_to_pay').innerHTML = document.getElementById('months').value * {{data.clas.mothly_fee}}
+    document.getElementById('total').value = parseInt(document.getElementById('fee_rec').value) + parseInt(document.getElementById('fee_to_pay').innerHTML)
+    document.getElementById('totalmonths').value = document.getElementById('total').value/{{data.clas.mothly_fee}}
+    var a = document.getElementById("total").value;  
+
+            if(a > {{data.clas.mothly_fee}}*12 )  
+            {   
+              alert("total fee cannot go more than "+ {{data.clas.mothly_fee}}*12 );
+              return false
+            }else
+            {
+              return true
+            }
+        
+      }
+      
+</script>
+</center>
+{%endblock%} 

@@ -1,0 +1,150 @@
+{%extends "base.html"%}
+{%block content%}
+<br><br>
+<div class="dropdown" id="notification-dropdown">
+    <div>
+    <button class="btn btn-secondary dropdown-toggle"  type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+      {%if notif_c%}
+        New Notifications!({{notif_c}})
+      {%else%}
+        No New Notifications  
+      {% endif %} 
+        
+
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+      <li><a class="dropdown-item" href="#">
+    {% if notif %}
+    <tr>
+        {% for i in notif%}                                                                     
+        <td>{{ forloop.counter}}.&nbsp;{{i.text}}. &nbsp; {{i.created}}</td><br>
+        {%endfor%}
+    </tr>
+    {% endif %}
+   </a></li>
+    </ul>
+    {% comment %}///////// is read butto   {% endcomment %}
+    <input type="text" id="is_read" name="vehicle2" value= "True" hidden>  
+  </div>
+
+  </div>
+
+WELCOME, {{request.user}} <br><br>
+
+<div style = "position:relative; left:80%; top:2px; ">
+    <div id ="mydiv">
+        {%if attn_status.first.is_present%}
+        Marked present
+        {%else%}
+        <button id ="attnbtn" type="button" >Click here to mark attendence </button><br>
+        {%endif%}
+    </div>
+    <input type="text" hidden id ="attend" name ="attend"  value="Present"><br>
+    <input type="text" hidden id ="stu_name" name ="stu_name" value={{user.first_name}}>
+
+  </div>
+
+
+
+<center>    
+    <h2> Student Section</h2>
+    <br>
+<table border="1" style="width:90%">    
+    <tr>
+        <th>First name</th>       
+        <th>Last name</th>       
+        <th>Email</th>       
+        <th>Phone_number</th>       
+        <th>Father_Name</th>       
+        <th>Address</th>
+        <th>Is Gen Category</th>  
+        <th>Fee Submitted </th>  
+        <th>Submitted Months</th>  
+
+        
+    </tr>
+    {%for i in info %}
+    <tr>
+        
+        <td>{{i.first_name}}</td> 
+        <td>{{i.last_name}}</td>
+        <td>{{i.email}}</td>
+        <td>{{i.contact}}</td>
+        <td>{{i.fathername}}</td>
+        <td>{{i.address}}</td>
+        <td>{{i.gen_cat}}</td>
+        <td>{{i.fee}}</td>
+        <td>{{i.fee_status}}</td>                 
+    </tr>
+    {% endfor%}
+    
+    
+</table><br><br>
+<a href= {% url 'update' %}><button tyoe="submit">  Update Details</button></a> <br>
+
+</center>    
+
+
+{% comment %} Account Dashboard only staff users be able to watch this {% endcomment %}
+{% comment %} {% if request.user.is_staff %}  {% endcomment %}
+{% comment %} to get current date  {% endcomment %}
+<script>
+console.log(notif)
+
+    n =  new Date();
+  y = n.getFullYear();
+  m = n.getMonth() + 1;
+  d = n.getDate();
+  document.getElementById("date1").value = m + "/" + d + "/" + y;
+  </script>
+  
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+  
+  <!-- to cyheck read notifications read -->
+<script>
+    $(document).ready(function()
+    {
+      $('#dropdownMenuButton1').click(function()
+      {
+        $.ajax(
+        {
+          type: "POST",
+          data: {'noti_read':$('#is_read').val(),csrfmiddlewaretoken: '{{ csrf_token }}'},
+          url: "{% url 'home' %}",
+        });
+      })
+    });
+    </script>   
+    
+    <script>
+      ///To check atendece status and sgow data or button accordingly  
+      ///Using jQery AJAX to trigger and action 
+      $(document).ready(function()
+    {
+        // catching the form's click event
+        $('#attnbtn').click(function()
+        {
+            //creating ajax call
+            $.ajax(
+            {
+                // request type
+                type: "POST",
+                //pass data in form of dict key value pairs along with csrf in case of post
+                data: {'second':$('#attend').val(),'third':$('#stu_name').val(),csrfmiddlewaretoken: '{{ csrf_token }}'},
+                //url to make request
+                url: "{% url 'home' %}",
+                // after success
+                success: function (response)    
+                {
+                    if (response){
+                    console.log(" Attendence Marked Successfully!");
+                    $('#mydiv').html('Marked Present')
+                    }else{
+                    console.log(" Attendence Did not mark, try Again after reloading page!!! "); 
+                    }
+                }
+            });
+        })
+    });
+  </script> 
+{%endblock%}    

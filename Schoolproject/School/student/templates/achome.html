@@ -1,0 +1,172 @@
+{%extends "base.html"%}
+{%block content%}
+<br>
+<h4>
+Welcome, {{request.user}}
+</h4>  
+<center>
+<h2> Accounts Section</h2>
+</center>
+<form method="POST" action= {% url 'search' %} >
+  {% csrf_token %}
+  <input type="text"  name="search" placeholder="Search Students..." >
+  <button type="submit"> GO </button>
+</form><br>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Fee Table</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Fee table</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <table>
+          <tr>
+            <th>Class</th>
+            <th>Fee -/month</th>
+            <th>Total Submissions</th>
+          </tr>
+          <tr>
+            <td>1st</td>
+            <td>200</td>
+            <td>12</td>
+          </tr>
+          <tr>
+            <td>2nd</td>
+            <td>400</td>
+            <td>12</td>
+          </tr>
+          <tr>
+            <td>3rd</td>
+            <td>600</td>
+            <td>12</td>
+          </tr>
+          <tr>
+            <td>4th</td>
+            <td>800</td>
+            <td>12</td>
+          </tr>
+          <tr>
+            <td>5th</td>
+            <td>1000</td>
+            <td>12</td>
+          </tr>
+          <tr>
+            <td>6th</td>
+            <td>1200</td>
+            <td>12</td>
+          </tr>
+          <tr>
+            <td>7th</td>
+            <td>1400</td>
+            <td>12</td>
+          </tr>
+          <tr>
+            <td>8th</td>
+            <td>1600</td>
+            <td>12</td>
+          </tr>
+          <tr>
+            <td>9th</td>
+            <td>1800</td>
+            <td>12</td> 
+          </tr>
+          <tr>
+            <td>10th</td>
+            <td>2000</td>
+            <td>12</td>
+          </tr>
+          <tr>
+            <td>10+1</td>
+            <td>2200</td>
+            <td>12</td>
+          </tr>
+          <tr>
+            <td>10+2</td>
+            <td>2400</td>
+            <td>12</td>
+          </tr>
+          
+        </table>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<center>
+<h3>Student's Data </h3>
+{% comment %} <a href= {% url 'update' %}> Update Details</a> <br><br><br><br> {% endcomment %}
+<style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+   
+
+    </style>
+    <!-- Button trigger modal -->
+
+
+
+
+    <table border="2" style="width:90%">
+        <tr border="2">
+            <th>First name</th>       
+            <th>Last name</th>       
+            <th>Email</th>       
+            <th>Phone_number</th>       
+            <th>Father_Name</th>       
+            <th>Address</th>
+            <th>Is General Category</th>
+            <th>Class</th>
+            <th>Fee submitted</th>       
+            <th>Fee Received by</th>       
+            <th>Received For</th>       
+            <th>Attendece for <p id="date"></p></th>
+            
+        </tr>
+        {%for i in details %}
+        <tr>
+            
+            <td>{{i.first_name}}</td> 
+            <td>{{i.last_name}}</td>
+            <td>{{i.email}}</td>
+            <td>{{i.contact}}</td>
+            <td>{{i.fathername}}</td>
+            <td>{{i.address}}</td>
+            <td>{{i.gen_cat}}</td>
+            <td>{{i.clas}}</td>
+            <td>{{i.fee}}</td>
+            <td>{{i.fee_received_by}}</td>
+            <td>{{i.fee_status}}</td>
+            <td>
+                <a href= {% url 'updatefee' id=i.id %}> Update Fee</a> 
+            </td>
+            
+        </tr>
+        {% endfor%}
+        
+        
+</table>
+<center>
+
+{%endblock%}    
+
+ 

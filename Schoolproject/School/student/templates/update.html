@@ -1,0 +1,19 @@
+{%extends "base.html"%}
+{%block content%}
+<center>
+<h2> Update Details </h2><br>
+<form method='POST'>
+    {% csrf_token %}
+    <label for="id_address">Address:</label>
+    <input type="text" name="address" maxlength="200" required="" id="id_address" value={{user.address}}><br><br>
+    <label for="id_contact">Contact:</label>
+    <input type="number" name="contact" min="0" required="" id="id_contact" value={{user.contact}}><br><br>
+    <label for="id_email">Email address:</label>
+    <input type="email" name="email" maxlength="254" id="id_email" required value={{user.email}} ><br><br>
+    <button type="submit"> Update </button>
+</form>
+&Tab;&Tab;&Tab;&Tab;&Tab;&Tab; <button onclick="history.back()">Cancel</button>
+
+</center>
+
+{%endblock%} 

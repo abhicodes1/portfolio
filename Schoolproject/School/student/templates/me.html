@@ -1,0 +1,43 @@
+<table id="my_table" border="2" style="width:90%">
+    <tr border="2">
+        <th>First name</th>       
+        <th>Last name</th>       
+        <th>Email</th>       
+        <th>Phone_number</th>       
+        <th>Father_Name</th>       
+        <th>Address</th>
+        <th>Is General Category</th>
+        <th>Class</th>
+        <th>Fee submitted</th>       
+        <th>Fee Received by</th>       
+        <th>Received For</th>       
+        <th>Attendece for <p id="date"></p></th>
+        <th>Actions</th>       
+    </tr>
+    {%for i in details %}
+    <tr id="tr1">
+        
+        <td>{{i.first_name}}</td> 
+        <td>{{i.last_name}}</td>
+        <td>{{i.email}}</td>
+        <td>{{i.contact}}</td>
+        <td>{{i.fathername}}</td>
+        <td>{{i.address}}</td>
+        <td>{{i.gen_cat}}</td>
+        <td>{{i.clas}}</td>
+        <td>{{i.fee}}</td>
+        <td>{{i.fee_received_by}}</td>
+        <td>{{i.fee_status}}</td>
+        <td>{{i.is_present_today}}</td>
+        <td>
+            <a href= {% url 'adupdate' id=i.id %}> Update  </a> <span> 
+         <a href= {% url 'adelete' id=i.id %}> Delete  </a> </span> 
+        </td>
+
+    </tr>
+    {% endfor%}
+     <br><br>
+
+    
+    
+</table>

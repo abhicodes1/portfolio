@@ -1,0 +1,19 @@
+{%extends "base.html"%}
+{%block content%}
+<center>
+<h2> Update Details </h2><br>
+<form method='POST'>
+    {% csrf_token %}
+    
+    <label for="id_address">Fathername:</label>
+    <input type="text" name="fathername" maxlength="200"  id="father" value={{data.fathername}}><br><br>
+    <label for="id_address">Address:</label>
+    <input type="text" name="address" maxlength="200" id="add" value={{data.address}}><br><br>
+    <label for="id_contact">Contact:</label>
+    <input type="text" name="nmbr" maxlength="200"  id="nmbr" value={{data.contact}}><br><br>
+    <button type = "submit"> Update </button> &Tab;
+</form>
+&Tab;&Tab;&Tab;&Tab;&Tab;&Tab; <button onclick="history.back()">Cancel</button>
+</center>
+
+{%endblock%} 

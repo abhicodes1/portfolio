@@ -1,0 +1,21 @@
+{%extends "base.html"%}
+{%block content%}
+
+<center>
+    <h1> Login page </h1> <br><br> <br><br> <br><br>
+
+    <form method = "POST">
+    {% csrf_token %}
+    <input type="text" name = 'email' placeholder = 'Enter Email'> <br><br>
+    <input type="password" name = 'password' placeholder = 'Enter Password' 
+    autocomplete="current-password" required="" id="log_pass"><br>
+    <input  type="checkbox" onclick="myFunctionL()">Show Password  <br><br>
+    <button type="submit">Submit</button>
+
+    </form>
+</center>
+{%endblock%}
+
+
+
+    
